@@ -1,4 +1,4 @@
-# front-portal-alunos
+# front-portal-aluno
 
 ## Project setup
 ```

@@ -6,7 +6,8 @@
   "extends": "plugin:vue/essential",
   "parserOptions": {
       "ecmaVersion": 12,
-      "sourceType": "module"
+      "sourceType": "module",
+      "requireConfigFile": false
   },
   "plugins": [
       "vue"
