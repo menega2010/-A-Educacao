@@ -21,7 +21,7 @@
     </v-navigation-drawer>
 
     <!-- Main Content -->
-    <v-main class="main-content">
+    <v-main class="main-content mt-3">
       <div class="responsive-panel">
         <v-container class="p-15">
           <v-row>

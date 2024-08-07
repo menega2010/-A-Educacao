@@ -5,52 +5,54 @@
     max-width="344"
     title="User Registration"
   >
+   <v-btn
+          @click="closeModal"
+          icon
+          size="x-small"
+          class="modal-close-button"
+        >
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
     <v-container>
       <v-text-field
-        v-model="first"
+        v-model="nome"
         color="primary"
-        label="First name"
-        variant="underlined"
-      ></v-text-field>
-
-      <v-text-field
-        v-model="last"
-        color="primary"
-        label="Last name"
+        label="Nome"
         variant="underlined"
       ></v-text-field>
 
       <v-text-field
         v-model="email"
         color="primary"
-        label="Email"
+        label="E-mail"
         variant="underlined"
       ></v-text-field>
 
       <v-text-field
-        v-model="password"
+        v-model="ra"
         color="primary"
-        label="Password"
-        placeholder="Enter your password"
+        label="RA"
         variant="underlined"
       ></v-text-field>
 
-      <v-checkbox
-        v-model="terms"
-        color="secondary"
-        label="I agree to site terms and conditions"
-      ></v-checkbox>
+      <v-text-field
+        v-model="cpf"
+        color="primary"
+        label="CPF"
+        variant="underlined"
+      ></v-text-field>
     </v-container>
 
     <v-divider></v-divider>
 
     <v-card-actions>
       <v-spacer></v-spacer>
+      <v-btn class="button-custom-cancel" @click="closeModal">
+        Cancelar
+      </v-btn>
 
-      <v-btn color="success">
-        Complete Registration
-
-        <v-icon icon="mdi-chevron-right" end></v-icon>
+     <v-btn class="button-custom-sucess">
+        Salvar
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -60,17 +62,42 @@
 <script>
   export default {
     data: () => ({
-      first: null,
-      last: null,
+      nome: null,
       email: null,
-      password: null,
-      terms: false,
+      ra: null,
+      cpf: null,
     }),
     name: "AddStudantAndEdit"
   }
 </script>
 
-<style scoped>
+<script setup>
+import { useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue';
+import { EventBus } from '../../plugins/EventBus.js';
+
+const user = ref({});
+
+onMounted(() => {
+  EventBus.on('userData', (data) => {
+    
+    user.value = data;
+  });
+});
+
+const router = useRouter();
+function closeModal() {
+  router.back();
+}
+</script>
+
+<style scoped> 
+.button-custom-sucess {
+  background-color: 	#59CE72;
+}
+.button-custom.cancel {
+  background-color: #000000;
+}
 .modal-overlay {
   position: fixed;
   top: 0;
