@@ -15,7 +15,6 @@
           <th>Ações</th>
         </tr>
       </template>
-
       <!-- Slot para o corpo da tabela -->
       <template v-slot:item="{ item }">
         <tr>
@@ -33,7 +32,7 @@
               icon="mdi-delete"
               size="x-small"
               class="ml-2"
-              @click="deleteItem(item)"
+              @click="deleteStudant"
             ></v-btn>
           </td>
         </tr>
@@ -44,6 +43,10 @@
 
 <script setup>
 import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
+import { EventBus } from "../../plugins/EventBus.js";
+
+const router = useRouter();
 
 // Dados
 const headers = [
@@ -82,13 +85,20 @@ function formatCPF(cpf) {
 }
 
 // Métodos para ações
+
 function editItem(item) {
-  console.log("Edit item:", item);
+  const data = { user: JSON.stringify(item) };
+
+  EventBus.emit("userData", data);
+  router.push({
+    path: "/AddStudantAndEdit",
+  });
+
   // Adicione a lógica de edição aqui
 }
 
-function deleteItem(item) {
-  console.log("Delete item:", item);
+function deleteStudant() {
+  router.push("/DeleteStudant");
   // Adicione a lógica de exclusão aqui
 }
 </script>
