@@ -1,6 +1,7 @@
 <template>
-  <v-card
-    class="mx-auto"
+  <div class="modal-overlay ">
+    <v-card
+    class="mx-auto modal-card"
     max-width="344"
     title="User Registration"
   >
@@ -53,6 +54,7 @@
       </v-btn>
     </v-card-actions>
   </v-card>
+  </div>
 </template>
 
 <script>
@@ -64,6 +66,36 @@
       password: null,
       terms: false,
     }),
-    name: "AddStudant"
+    name: "AddStudantAndEdit"
   }
 </script>
+
+<style scoped>
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Dark overlay background */
+  backdrop-filter: blur(5px); /* Blur effect */
+  z-index: 2000; /* Ensure the overlay is above the page content */
+}
+
+/* Styles for the modal card */
+.modal-card {
+  position: relative;
+  margin: auto; /* Center the modal horizontally */
+  top: 50%;
+  transform: translateY(-50%); /* Center the modal vertically */
+}
+
+/* Styles for the close button inside the modal */
+.modal-close-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2001; /* Ensure the button is above the modal content */
+}
+</style>
+
