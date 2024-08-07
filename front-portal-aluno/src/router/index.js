@@ -1,14 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import AddStudant from '../components/AddStudant.vue';
-
+import AddStudantAndEdit from '../components/AddStudantAndEdit/AddStudantAndEdit.vue';
+import App from '../App.vue'
 
 const routes = [
   {
-    path: '/',
-    name: 'AddStudant',
-    component: AddStudant
-  },
- 
+    path: '/AddStudantAndEdit',
+    name: 'AddStudantAndEdit',
+    component: AddStudantAndEdit
+  }
 ];
 
 const router = createRouter({
