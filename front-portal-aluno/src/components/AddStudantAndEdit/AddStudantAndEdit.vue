@@ -1,128 +1,157 @@
 <template>
-  <div class="modal-overlay ">
-    <v-card
-    class="mx-auto modal-card"
-    max-width="344"
-    title="User Registration"
-  >
-   <v-btn
-          @click="closeModal"
-          icon
-          size="x-small"
-          class="modal-close-button"
-        >
-          <v-icon>mdi-close</v-icon>
+  <!-- <div v-if="loading" class="loading-overlay">
+    <v-progress-circular indeterminate color="primary"></v-progress-circular>
+  </div> -->
+  <div  class="modal-overlay">
+    <v-card class="mx-auto modal-card" max-width="344" title="User Registration">
+      <v-btn @click="closeModal" icon size="x-small" class="modal-close-button">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+
+      <v-container>
+        <v-text-field
+          v-model="nome"
+          color="primary"
+          label="Nome"
+          variant="underlined"
+        ></v-text-field>
+
+        <v-text-field
+          v-model="email"
+          color="primary"
+          label="E-mail"
+          variant="underlined"
+        ></v-text-field>
+
+        <v-text-field
+          v-model="ra"
+          color="primary"
+          label="RA"
+          variant="underlined"
+        ></v-text-field>
+
+        <v-text-field
+          v-model="cpf"
+          color="primary"
+          label="CPF"
+          variant="underlined"
+        ></v-text-field>
+      </v-container>
+
+      <v-divider></v-divider>
+
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn class="button-custom-cancel" @click="closeModal">
+          Cancelar
         </v-btn>
-    <v-container>
-      <v-text-field
-        v-model="nome"
-        color="primary"
-        label="Nome"
-        variant="underlined"
-      ></v-text-field>
 
-      <v-text-field
-        v-model="email"
-        color="primary"
-        label="E-mail"
-        variant="underlined"
-      ></v-text-field>
-
-      <v-text-field
-        v-model="ra"
-        color="primary"
-        label="RA"
-        variant="underlined"
-      ></v-text-field>
-
-      <v-text-field
-        v-model="cpf"
-        color="primary"
-        label="CPF"
-        variant="underlined"
-      ></v-text-field>
-    </v-container>
-
-    <v-divider></v-divider>
-
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn class="button-custom-cancel" @click="closeModal">
-        Cancelar
-      </v-btn>
-
-     <v-btn class="button-custom-sucess">
-        Salvar
-      </v-btn>
-    </v-card-actions>
-  </v-card>
+        <v-btn class="button-custom-success" @click="save">
+          Salvar
+        </v-btn>
+      </v-card-actions>
+    </v-card>
   </div>
 </template>
 
-<script>
-  export default {
-    data: () => ({
-      nome: null,
-      email: null,
-      ra: null,
-      cpf: null,
-    }),
-    name: "AddStudantAndEdit"
-  }
-</script>
 
 <script setup>
-import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { EventBus } from '../../plugins/EventBus.js';
 
-const user = ref({});
 
+// Estado dos dados e do carregamento
+const nome = ref('');
+const email = ref('');
+const ra = ref('');
+const cpf = ref('');
+const loading = ref(true);
+const router = useRouter();
+const route = useRoute()
+
+// Use onMounted to call the functions when the component is mounted
+// function  created() {
+//   const studentData = route.state?.studentData;
+//   console.log(studentData)
+//   if (studentData) {
+//     nome.value = studentData.name || '';
+//     email.value = studentData.email || '';
+//     ra.value = studentData.ra || '';
+//     cpf.value = studentData.cpf || '';
+//   }
+
+//     // EventBus.on('userData', (data) => {
+//     //   cpf.value = data.name
+//     //   console.log()
+
+//     // });
+  
+//   }
 onMounted(() => {
-  EventBus.on('userData', (data) => {
-    
-    user.value = data;
-  });
+  // Obtendo os dados passados pela rota
+  nome.value = route.query.name || '';
+  email.value = route.query.email || '';
+  cpf.value = route.query.cpf || '';
 });
 
-const router = useRouter();
+
+
 function closeModal() {
   router.back();
 }
+
+function save() {
+
+}
 </script>
 
-<style scoped> 
-.button-custom-sucess {
-  background-color: 	#59CE72;
+<style scoped>
+.button-custom-success {
+  background-color: #59CE72;
+  color: white;
 }
-.button-custom.cancel {
+
+.button-custom-cancel {
   background-color: #000000;
+  color: white;
 }
+
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* Dark overlay background */
-  backdrop-filter: blur(5px); /* Blur effect */
-  z-index: 2000; /* Ensure the overlay is above the page content */
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 2000;
 }
 
-/* Styles for the modal card */
 .modal-card {
   position: relative;
-  margin: auto; /* Center the modal horizontally */
+  margin: auto;
   top: 50%;
-  transform: translateY(-50%); /* Center the modal vertically */
+  transform: translateY(-50%);
 }
 
-/* Styles for the close button inside the modal */
 .modal-close-button {
   position: absolute;
   top: 8px;
   right: 8px;
-  z-index: 2001; /* Ensure the button is above the modal content */
+  z-index: 2001;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
 }
 </style>
-
