@@ -15,13 +15,12 @@
           <th>Ações</th>
         </tr>
       </template>
-
       <!-- Slot para o corpo da tabela -->
       <template v-slot:item="{ item }">
         <tr>
           <td>{{ item.name }}</td>
-          <td>{{ item.light }}</td>
-          <td>{{ formatCPF(item.height) }}</td>
+          <td>{{ item.email }}</td>
+          <td>{{ formatCPF(item.cpf) }}</td>
 
           <td>
             <v-btn
@@ -33,7 +32,7 @@
               icon="mdi-delete"
               size="x-small"
               class="ml-2"
-              @click="deleteItem(item)"
+              @click="deleteStudant"
             ></v-btn>
           </td>
         </tr>
@@ -42,34 +41,39 @@
   </v-card>
 </template>
 
+
 <script setup>
 import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
+import { EventBus } from "../../plugins/EventBus.js";
+
+const router = useRouter();
 
 // Dados
 const headers = [
   { text: "Nome", align: "start", value: "name" },
-  { text: "Luz", align: "start", value: "light" },
-  { text: "Amigável para Pets", align: "start", value: "height" },
+  { text: "Luz", align: "start", value: "email" },
+  { text: "Amigável para Pets", align: "start", value: "cpf" },
 ];
 
 const plants = ref([
-  { name: "Fern", light: "Low", height: "03562847009" },
-  { name: "Snake Plant", light: "Low", height: "03562847009" },
-  { name: "Monstera", light: "Medium", height: "03562847009" },
-  { name: "Pothos", light: "Low to medium", height: "03562847009" },
-  { name: "ZZ Plant", light: "Low to medium", height: "03562847009" },
-  { name: "Spider Plant", light: "Bright, indirect", height: "03562847009" },
-  { name: "Air Plant", light: "Bright, indirect", height: "03562847009" },
-  { name: "Peperomia", light: "Bright, indirect", height: "03562847009" },
-  { name: "Aloe Vera", light: "Bright, direct", height: "03562847009" },
-  { name: "Jade Plant", light: "Bright, direct", height: "03562847009" },
+  { name: "Fern", email: "Low", cpf: "03562847009", ra: "" },
+  { name: "Snake Plant", email: "Low", cpf: "03562847009",ra: ""  },
+  { name: "Monstera", email: "Medium", cpf: "03562847009",ra: ""  },
+  { name: "Pothos", email: "Low to medium", cpf: "03562847009",ra: ""  },
+  { name: "ZZ Plant", email: "Low to medium", cpf: "03562847009", ra: "" },
+  { name: "Spider Plant", email: "Bright, indirect", cpf: "03562847009",ra: ""  },
+  { name: "Air Plant", email: "Bright, indirect", cpf: "03562847009",ra: ""  },
+  { name: "Peperomia", email: "Bright, indirect", cpf: "03562847009",ra: ""  },
+  { name: "Aloe Vera", email: "Bright, direct", cpf: "03562847009", ra: "" },
+  { name: "Jade Plant", email: "Bright, direct", cpf: "03562847009", ra: "" },
 ]);
 
 // Computed property para formatar CPF
 const formattedPlants = computed(() =>
   plants.value.map((plant) => ({
     ...plant,
-    height: formatCPF(plant.height),
+    cpf: formatCPF(plant.cpf),
   }))
 );
 
@@ -80,15 +84,27 @@ function formatCPF(cpf) {
     .replace(/\D/g, "") // Remove qualquer caractere que não seja número
     .replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4"); // Adiciona a máscara
 }
-
 // Métodos para ações
+
 function editItem(item) {
-  console.log("Edit item:", item);
-  // Adicione a lógica de edição aqui
+
+  // const data =  JSON.stringify(item);
+  EventBus.emit("userData", item);
+  router.push({
+    path: "/AddStudantAndEdit",
+     query: {
+      name: item.name,
+      email: item.email,
+      cpf: item.cpf,
+    }
+  });
+
+
+  // // Adicione a lógica de edição aqui
 }
 
-function deleteItem(item) {
-  console.log("Delete item:", item);
+function deleteStudant() {
+  router.push("/DeleteStudant");
   // Adicione a lógica de exclusão aqui
 }
 </script>
@@ -105,3 +121,5 @@ function deleteItem(item) {
   font-weight: bold;
 }
 </style>
+
+

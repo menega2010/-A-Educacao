@@ -1,12 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import AddStudantAndEdit from '../components/AddStudantAndEdit/AddStudantAndEdit.vue';
-import App from '../App.vue'
+import DeleteStudant from '../components/ModalConfirmDeleteStudant/DeleteStudant.vue'
 
 const routes = [
   {
     path: '/AddStudantAndEdit',
     name: 'AddStudantAndEdit',
     component: AddStudantAndEdit
+  },
+  {
+    path: '/DeleteStudant',
+    name: 'DeleteStudant',
+    component: DeleteStudant
   }
 ];
 
