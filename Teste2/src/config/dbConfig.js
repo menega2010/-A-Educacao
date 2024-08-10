@@ -1,7 +1,6 @@
 import { Sequelize } from 'sequelize';
-import dotenv from 'dotenv'; // Adicione esta linha
+import dotenv from 'dotenv';
 
-// Carregar variáveis de ambiente
 dotenv.config();
 
 const sequelize = new Sequelize(
@@ -11,8 +10,8 @@ const sequelize = new Sequelize(
     {
         host: process.env.DB_HOST,
         dialect: 'postgres',
-        port: process.env.DB_PORT,
-        logging: false,
+        port: parseInt(process.env.DB_PORT, 10),
+        logging: console.log,  // Ativa o logging com console.log
     }
 );
 

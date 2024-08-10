@@ -15,10 +15,16 @@ module.exports = {
               allowNull: false,
               unique: true,
           },
-          password: {
+          cpf: {
               type: Sequelize.STRING,
               allowNull: false,
+              unique: true,
           },
+          ra: {
+            type: Sequelize.STRING,
+            allowNull: false,
+            unique: true,
+        },
           createdAt: {
               type: Sequelize.DATE,
               allowNull: false,
