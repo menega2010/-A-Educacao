@@ -70,26 +70,18 @@ const loading = ref(true);
 const router = useRouter();
 const route = useRoute()
 
-// Use onMounted to call the functions when the component is mounted
-// function  created() {
-//   const studentData = route.state?.studentData;
-//   console.log(studentData)
-//   if (studentData) {
-//     nome.value = studentData.name || '';
-//     email.value = studentData.email || '';
-//     ra.value = studentData.ra || '';
-//     cpf.value = studentData.cpf || '';
-//   }
 
-//     // EventBus.on('userData', (data) => {
-//     //   cpf.value = data.name
-//     //   console.log()
+const deleteUser = async () => {
+  try {
+    const response = await axios.de('/user/me'); 
+    console.log(response.data)
+    plants.value = response.data;
+  } catch (error) {
+    console.error('Error fetching users:', error);
+  }
+};
 
-//     // });
-  
-//   }
 onMounted(() => {
-  // Obtendo os dados passados pela rota
   nome.value = route.query.name || '';
   email.value = route.query.email || '';
   cpf.value = route.query.cpf || '';

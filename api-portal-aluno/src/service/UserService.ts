@@ -37,7 +37,12 @@ export class UserService {
   //   }
   // }
 
-  public async getUserProfile(userId: string): Promise<UserDTO> {
-    return await this.userRepository.findById(userId);
+  public async getUsers(): Promise<UserDTO[]> {
+    return await this.userRepository.getAll();
+  }
+
+  public async deleteUser(userCpf: string): Promise<void> {
+    await this.userRepository.deleteUsers(userCpf);
+    return 
   }
 }

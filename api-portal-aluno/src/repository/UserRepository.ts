@@ -3,7 +3,6 @@ import { UserRepositoryInterface } from "../interface/InterfaceRepository/UserRe
 import { UserDTO } from "../model/DTO/UserDTO";
 import prismaClient from "../prisma/prismaClient";
 
-
 export class UserRepository implements UserRepositoryInterface {
   constructor() {}
 
@@ -40,12 +39,24 @@ export class UserRepository implements UserRepositoryInterface {
       throw new Error("Usuário não encontrado");
     }
 
-    const { id, name, cpf, email, ra } = user;
+    const { id, name, cpf, email, ra, createdAt, updatedAt } = user;
 
-    return { id,  name,
-      cpf,
-      email,
-      ra };
+    return { id, name, cpf, email, ra, createdAt, updatedAt };
+  }
+
+  public async getAll(): Promise<UserDTO[]> {
+    const user = await prismaClient.tab_studant.findMany();
+
+    if (!user) {
+      throw new Error("Nenhum usuário encontrado.");
+    }
+    return user
+  }
+  public async deleteUsers(userCpf: string ): Promise<void> {
+    const user = await prismaClient.tab_studant.findFirst({
+      where: { cpf: userCpf },
+    });
+    prismaClient.tab_studant.delete({where: user})
   }
 
   public async authUser(username: string): Promise<UserDTO | null> {
@@ -60,13 +71,16 @@ export class UserRepository implements UserRepositoryInterface {
         return null; // Usuário não encontrado
       }
 
-      const { id, name, cpf, email, ra } = user;
+      const { id, name, cpf, email, ra, createdAt, updatedAt } = user;
 
       const userDTO: UserDTO = {
-        id,  name,
-      cpf,
-      email,
-      ra 
+        id,
+        name,
+        cpf,
+        email,
+        ra,
+        createdAt,
+        updatedAt,
       };
 
       return userDTO;
