@@ -43,11 +43,17 @@
 
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed,onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { EventBus } from "../../plugins/EventBus.js";
+import axios from '../../axios'; // Importa o arquivo de configuração do axios
+
+const plants = ref([]);
+
+
 
 const router = useRouter();
+
 
 // Dados
 const headers = [
@@ -56,18 +62,17 @@ const headers = [
   { text: "Amigável para Pets", align: "start", value: "cpf" },
 ];
 
-const plants = ref([
-  { name: "Fern", email: "Low", cpf: "03562847009", ra: "" },
-  { name: "Snake Plant", email: "Low", cpf: "03562847009",ra: ""  },
-  { name: "Monstera", email: "Medium", cpf: "03562847009",ra: ""  },
-  { name: "Pothos", email: "Low to medium", cpf: "03562847009",ra: ""  },
-  { name: "ZZ Plant", email: "Low to medium", cpf: "03562847009", ra: "" },
-  { name: "Spider Plant", email: "Bright, indirect", cpf: "03562847009",ra: ""  },
-  { name: "Air Plant", email: "Bright, indirect", cpf: "03562847009",ra: ""  },
-  { name: "Peperomia", email: "Bright, indirect", cpf: "03562847009",ra: ""  },
-  { name: "Aloe Vera", email: "Bright, direct", cpf: "03562847009", ra: "" },
-  { name: "Jade Plant", email: "Bright, direct", cpf: "03562847009", ra: "" },
-]);
+
+
+const fetchUsers = async () => {
+  try {
+    const response = await axios.get('/user/me'); 
+    console.log(response.data)
+    plants.value = response.data;
+  } catch (error) {
+    console.error('Error fetching users:', error);
+  }
+};
 
 // Computed property para formatar CPF
 const formattedPlants = computed(() =>
@@ -107,6 +112,10 @@ function deleteStudant() {
   router.push("/DeleteStudant");
   // Adicione a lógica de exclusão aqui
 }
+
+onMounted(() => {
+  fetchUsers();
+})
 </script>
 
 <style scoped>

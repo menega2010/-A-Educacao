@@ -4,4 +4,6 @@ export interface UserDTO {
   email?: string;
   cpf?: string;
   ra?: string;
+  createdAt: string; 
+  updatedAt: string;
 }
